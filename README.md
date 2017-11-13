@@ -6,7 +6,7 @@ Rendered html version of R markdown handout can be viewed at:
 An example of dimension reduction in a genetics setting (genetic diversity of human populations) can be
 found at:
 
-https://github.com/mikblack/GENE360-PopDiv
+ - https://github.com/mikblack/GENE360-PopDiv
 
 This work is licensed under a Creative Commons Attribution 4.0 International License.<BR>
 You should have received a copy of the license along with this work. If not, see:<BR>
