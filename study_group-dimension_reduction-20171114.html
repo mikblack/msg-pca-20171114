@@ -170,7 +170,7 @@ head(carsMat)</code></pre>
 <p><span class="math display">\[
 X^\prime X
 \]</span></p>
-<p>flips the <span class="math inline">\(X\)</span> matrix on its side (transpose) and then multiples in by <span class="math inline">\(X\)</span>. In R this can be accomplihsed via:</p>
+<p>flips the <span class="math inline">\(X\)</span> matrix on its side (transpose) and then multiples it by <span class="math inline">\(X\)</span>. In R this can be accomplihsed via:</p>
 <pre class="r"><code>X &lt;- scale(carsMat, scale=FALSE)
 t(X) %*% X </code></pre>
 <pre><code>##        speed     dist

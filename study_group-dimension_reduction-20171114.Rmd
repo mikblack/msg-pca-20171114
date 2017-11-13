@@ -54,7 +54,7 @@ In R, linear algebra operations can be performed on matrices.  For example, the 
 X^\prime X
 \]
 
-flips the $X$ matrix on its side (transpose) and then multiples in by $X$.  In R this can be accomplihsed via:
+flips the $X$ matrix on its side (transpose) and then multiples it by $X$.  In R this can be accomplihsed via:
 
 ```{r}
 X <- scale(carsMat, scale=FALSE)
