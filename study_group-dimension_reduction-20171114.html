@@ -176,14 +176,14 @@ t(X) %*% X </code></pre>
 <pre><code>##        speed     dist
 ## speed 1370.0  5387.40
 ## dist  5387.4 32538.98</code></pre>
-<p>Coincidentally (or not…) if you mean centre the data (using the <code>scale</code> function), and then divide by <span class="math inline">\(n-1\)</span>, you get the <strong>covariance matrix</strong>.</p>
+<p>Coincidentally (or not…) if you mean centre the data (using the <code>scale</code> function), and then divide by <span class="math inline">\(n-1\)</span>, you get the <em>covariance matrix</em>.</p>
 <pre class="r"><code>Xscale &lt;- scale(carsMat, scale=FALSE)
 n &lt;- nrow(Xscale)
 t(Xscale) %*% Xscale / (n-1)</code></pre>
 <pre><code>##           speed     dist
 ## speed  27.95918 109.9469
 ## dist  109.94694 664.0608</code></pre>
-<p>Here is the covariance matrix, which contains the variances of each variable (dist and speed) on the diagonal, and the covariance on the off-diagonal:</p>
+<p>Here is the covariance matrix, which contains the variances of each variable (<code>dist</code> and <code>speed</code>) on the diagonal, and the covariance on the off-diagonal:</p>
 <pre class="r"><code>cov(cars)</code></pre>
 <pre><code>##           speed     dist
 ## speed  27.95918 109.9469
@@ -207,7 +207,7 @@ Cor(x,y) = \frac{Cov(x,y)}{s_x s_y}
 ## dist  109.94694 664.0608</code></pre>
 <pre class="r"><code>cov(cars)[1,2] / sqrt( cov(cars)[1,1] * cov(cars)[2,2])</code></pre>
 <pre><code>## [1] 0.8068949</code></pre>
-<p>The <em>spectral decomposition</em> is an important linear algebra technique that can be used to decompose a special kind of square (i.e., number of rows is equal to the number of columns) matrix (positive definite) in the following way:</p>
+<p>The <em>spectral decomposition</em> (or <em>eigendecomposition</em>) is an important linear algebra technique that can be used to decompose a special kind of square (i.e., number of rows is equal to the number of columns) matrix (symmetric, positive definite) in the following way:</p>
 <p><span class="math display">\[
 X = Z^\prime D Z
 \]</span></p>
@@ -216,6 +216,7 @@ X = Z^\prime D Z
 Z^\prime Z = I
 \]</span></p>
 <p>where <span class="math inline">\(I\)</span> is the identity matrix (a diagonal matrix with ones on the diagonal).</p>
+<p>Actually there is a more general form of the spectral decomposition that doesn’t require symmetry, but that can be a story for another session…</p>
 <p>We can apply the spectral decomposition to the covariance matrix for the cars data via:</p>
 <pre class="r"><code>eigen(cov(cars))</code></pre>
 <pre><code>## $values
@@ -243,11 +244,20 @@ Z^\prime Z = I
 <li><p>I just snuck them in when you weren’t looking.</p></li>
 <li><p>I’m glad you asked. Read on:</p></li>
 </ol>
+<p>Each eigenvector (<span class="math inline">\(\bf{z}\)</span>) and its corresponding eigenvalue (<span class="math inline">\(d\)</span>) satisfy the following equation:</p>
+<p><span class="math display">\[
+X\bf{z} = \it{d}\bf{z} 
+\]</span></p>
+<p>Before we had computers to do it for us, being able to decompose a matrix into the <span class="math inline">\(X = Z^\prime D Z\)</span> form made matrix algebra a lot easier, due to some special properties of the <span class="math inline">\(Z\)</span> matrix.</p>
+</div>
+<div id="principal-components-analysis" class="section level3">
+<h3>Principal components analysis</h3>
+<p>So, how does all of this relate to principal components analysis (PCA)?</p>
 <p>Have a look at this equation:</p>
 <p><span class="math display">\[
 Y_1 = \alpha_1 X_1 + \alpha_2 X_2
 \]</span></p>
-<p>The coefficients <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> are being used to create a new variable <span class="math inline">\(Y_1\)</span>, which is a <em>linear combination</em> of our two existing variables, <span class="math inline">\(X_1\)</span> (<code>dist</code>) and <span class="math inline">\(X_2\)</span> (<code>speed</code>). In the spectral decomposition, it turns out that the goal is to find values of <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> that create a <span class="math inline">\(Y_1\)</span> variable whose variance is as large as possible. To stop the variance going to infinity, we put constraints on the <span class="math inline">\(\alpha\)</span>’s:</p>
+<p>The coefficients <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> are being used to create a new variable <span class="math inline">\(Y_1\)</span>, which is a <em>linear combination</em> of our two existing variables, <span class="math inline">\(X_1\)</span> (<code>dist</code>) and <span class="math inline">\(X_2\)</span> (<code>speed</code>). In PCA, it turns out that the goal is to find values of <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> that create a <span class="math inline">\(Y_1\)</span> variable whose variance is as large as possible. To stop the variance going to infinity, we put constraints on the <span class="math inline">\(\alpha\)</span>’s:</p>
 <p><span class="math display">\[
 \alpha_1^2 + \alpha_2^2 = 1
 \]</span></p>
@@ -324,9 +334,8 @@ ggplot(carsScale, aes(x=speed, y=dist)) +
 <p>Note that the <code>coord_fixed()</code> option abpove preserves the aspect ratio of the plot (otherwise the eigenvectors don’t look orthogonal).</p>
 <p>Clearly the first eigenvector is capturing the direction of greatest variation in the <code>speed</code> and <code>dist</code> variables.</p>
 </div>
-<div id="principal-components-analysis" class="section level3">
-<h3>Principal components analysis</h3>
-<p>So, how does all of this relate to principal components analysis (PCA)?</p>
+<div id="principal-components-analysis-in-r" class="section level3">
+<h3>Principal components analysis in R</h3>
 <p>PCA generates “principal components” of the data - linear combinations of the (centered) variables that explain the observed variation.</p>
 <p>In R we can perform PCA via the <code>prcomp</code> command:</p>
 <pre class="r"><code>carsPCA &lt;- prcomp(cars)
