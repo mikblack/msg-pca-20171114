@@ -2,7 +2,7 @@
 title: 'Otago Study Group: PCA, SVD and MDS'
 author: "Mik Black"
 date: "14/11/2017"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
