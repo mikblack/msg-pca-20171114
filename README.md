@@ -1,7 +1,8 @@
 ## PCA, SVD and MDS - dimension reduction tools
 
 Rendered version of R markdown handout can be viewed at:
- - study_group-dimension_reduction-20171114.md
+
+ - [study_group-dimension_reduction-20171114.md](study_group-dimension_reduction-20171114.md)
 
 An example of dimension reduction in a genetics setting (genetic diversity of human populations) can be
 found at:
